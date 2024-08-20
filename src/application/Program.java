@@ -69,6 +69,28 @@ public class Program {
     				
     				}
             	
+            	if (opcao == 3) {
+            	    System.out.println("Alterar Aluno");
+            	    
+            	    System.out.print("Informe o ID do aluno que deseja alterar: ");
+            	    int id = Integer.parseInt(console.nextLine());
+            	    
+            	    Aluno aluno = new Aluno();
+            	    aluno.setId(id);
+            	    
+            	    System.out.print("Novo Nome: ");
+            	    aluno.setNome(console.nextLine());
+            	    
+            	    System.out.print("Novo Sexo: ");
+            	    aluno.setSexo(console.nextLine());
+            	    
+            	    System.out.print("Nova Data de Nascimento (dd-mm-aaaa): ");
+            	    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            	    aluno.setDt_nasc(LocalDate.parse(console.nextLine(), formato));
+            	    
+            	    acao.alterar(aluno);
+            	}
+            	
             } while(opcao != 5);
             
         } catch (Exception e){

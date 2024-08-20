@@ -74,7 +74,34 @@ public class AlunoJDBC {
 		
 	}
 	
-	public void alterar(Aluno a) {
+	public void alterar(Aluno a) throws SQLException {
+		String sql = "UPDATE aluno SET nome = ? , sexo = ?, dt_nasc = ? WHERE id = ?";
 		
+		try (Connection con = db.getConexao();
+				PreparedStatement pst = con.prepareStatement(sql);
+				) {
+			
+			Statement st = con.createStatement();
+			
+			pst.setString(1, a.getNome());
+			pst.setString(2, a.getSexo());
+			pst.setDate(3, Date.valueOf(a.getDt_nasc()));
+			pst.setInt(4, a.getId());
+			
+			int linhaAlterada = pst.executeUpdate();
+			
+			if (linhaAlterada > 0) {
+	            System.out.println("Aluno atualizado com sucesso!");
+	        } else {
+	            System.out.println("Nenhum aluno encontrado com o ID especificado.");
+	        }
+			
+	        st.close();
+			
+		} catch (Exception e) {
+			System.out.println("Erro ao atualizar aluno: " + e.getMessage());
+		} finally {
+			db.closeConexao();
+		}
 	}
 }

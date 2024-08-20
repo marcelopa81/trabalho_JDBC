@@ -3,7 +3,10 @@ package jdbc;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.Aluno;
@@ -36,8 +39,35 @@ public class AlunoJDBC {
 		}
 	}
 	
-	public List<Aluno> listar(){
-		return null;	
+	public List<Aluno> listar() throws SQLException{
+		
+		ArrayList<Aluno> list = new ArrayList<Aluno>();
+		
+		try {
+			con = db.getConexao();
+			Statement st = con.createStatement();
+			String sql = "SELECT * FROM aluno";
+			
+			 ResultSet rs = st.executeQuery(sql);
+		        
+		        while (rs.next()) {
+		            Aluno aluno = new Aluno();
+		            aluno.setId(rs.getInt("id"));
+		            aluno.setNome(rs.getString("nome"));
+		            aluno.setSexo(rs.getString("sexo"));
+		            aluno.setDt_nasc(rs.getDate("dt_nasc").toLocalDate());
+		            list.add(aluno);
+		        }
+		        
+		        rs.close();
+		        st.close();
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			db.closeConexao();
+		}
+		return list;
 	}
 	
 	public void apagar(int id) {

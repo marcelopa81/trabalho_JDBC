@@ -91,6 +91,17 @@ public class Program {
             	    acao.alterar(aluno);
             	}
             	
+            	if (opcao == 4) {
+            		System.out.println("Excluir aluno\n");
+            		
+            		System.out.println("Digite o ID do aluno que deseja excluir: ");
+            		
+            		int id = Integer.parseInt(console.nextLine());
+            		
+            		acao.apagar(id);
+            		console.nextLine();
+            	}
+            	
             } while(opcao != 5);
             
         } catch (Exception e){

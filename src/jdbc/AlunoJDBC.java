@@ -70,7 +70,32 @@ public class AlunoJDBC {
 		return list;
 	}
 	
-	public void apagar(int id) {
+	public void apagar(int id) throws SQLException {
+		
+		try {
+			con = db.getConexao();
+			String sql = "DELETE FROM aluno WHERE id = ?";
+			PreparedStatement pst = con.prepareStatement(sql);
+			
+			
+			
+			pst.setInt(1, id);
+			
+			int alunoExcluido = pst.executeUpdate();
+			
+			if (alunoExcluido > 0) {
+				System.out.println("Aluno excluído com sucesso!");
+			} else {
+				System.out.println("Não existe aluno com o ID informado!");
+			}
+			
+			
+			
+		} catch (Exception e) {
+			System.err.println(e);
+		} finally {
+			db.closeConexao();
+		}
 		
 	}
 	
